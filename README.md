@@ -11,7 +11,7 @@
 
 
 ```
-    layui.config({
+        layui.config({
 		  base: '../../../layui_exts/' //配置组件存放的基础目录
 		}).extend({
 		  regionCheckBox: 'regionCheckBox/regionCheckBox' //定义组件模块名
