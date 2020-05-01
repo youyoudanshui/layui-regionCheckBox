@@ -9,6 +9,10 @@
 
 #### 使用示例
 
+```
+        <div id="regionTest"></div>
+```
+
 
 ```
         layui.config({
