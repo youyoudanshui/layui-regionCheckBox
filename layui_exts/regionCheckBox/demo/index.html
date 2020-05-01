@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"> 
+    <title>中国省市复选框</title>   
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../../layui/css/layui.css" media="all">
+  </head>
+  <body>
+    <div id="regionTest"></div>
+	<div style="margin-left: 15px;">
+		您点击的地域是：<span id="click"></span></br>
+		提交的数据：<span id="all"></span>
+	</div>
+	
+	<script src="../../../layui/layui.js"></script>
+	<script>
+        layui.config({
+		  base: '../../../layui_exts/' //配置组件存放的基础目录
+		}).extend({
+		  regionCheckBox: 'regionCheckBox/regionCheckBox' //定义组件模块名
+		}).use(['regionCheckBox'], function(){
+		  var $ = layui.$;
+		  var regionCheckBox = layui.regionCheckBox;
+		  
+		  //执行实例
+		  regionCheckBox.render({
+			elem: '#regionTest',
+			name: 'region', //input name
+			value: ['北京', '内蒙古', '江西-九江'], //赋初始值
+			width: '550px', //默认550px
+			border: true, //默认true
+			ready: function(){ //初始化完成时执行
+				$('#all').html(this.name + '=' + getAllChecked());
+			},
+			change: function(result){ //点击复选框时执行
+				$('#click').html(result.value);
+				$('#all').html(this.name + '=' + getAllChecked());
+			}
+		  });
+		  
+		  function getAllChecked(){
+			var all = '';
+			$("input:checkbox[name='region']:checked").each(function(){
+				all += $(this).val() + ',';
+			});
+			return all.substring(0, all.length-1);
+		  }
+		  
+		});
+    </script>
+  </body>
+</html>
