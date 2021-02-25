@@ -24,19 +24,22 @@
 		  var regionCheckBox = layui.regionCheckBox;
 		  
 		  //执行实例
-		  regionCheckBox.render({
+		  regionTest = regionCheckBox.render({
 			elem: '#regionTest',
-			name: 'region', //input name
-			value: ['北京', '内蒙古', '江西-九江'], //赋初始值
-			width: '550px', //默认550px
-			border: true, //默认true
-			ready: function(){ //初始化完成时执行
-				//做些什么
+			name: 'region', // 对应input name
+			value: ['北京', '内蒙古', '江西-九江'], // 赋初始值
+			width: '550px', // 默认550px
+			border: true, // 默认true
+			// 初始化完成时执行
+			ready: function(){
+				// 做些什么
 			},
-			change: function(result){ //点击复选框时执行
-				//做些什么
+			// 点击复选框时执行
+			change: function(result){
+				// 做些什么
 			}
-		  });
+		  });		  
+		});
 ```
 
 #### 效果截图
