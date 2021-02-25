@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="../../../layui/css/layui.css" media="all">
   </head>
   <body>
+  	<div style="margin: 15px 0 0 15px;">
+  		<button class="layui-btn" onclick="setValue()">赋值['上海', '云南-昆明']</button>
+  	</div>
     <div id="regionTest"></div>
 	<div style="margin-left: 15px;">
 		您点击的地域是：<span id="click"></span></br>
@@ -18,39 +21,47 @@
 	
 	<script src="../../../layui/layui.js"></script>
 	<script>
+		var $, regionTest;
+
         layui.config({
-		  base: '../../../layui_exts/' //配置组件存放的基础目录
+		  base: '../../../layui_exts/' // 配置组件存放的基础目录
 		}).extend({
-		  regionCheckBox: 'regionCheckBox/regionCheckBox' //定义组件模块名
+		  regionCheckBox: 'regionCheckBox/regionCheckBox' // 定义组件模块名
 		}).use(['regionCheckBox'], function(){
-		  var $ = layui.$;
+		  $ = layui.$;
 		  var regionCheckBox = layui.regionCheckBox;
 		  
 		  //执行实例
-		  regionCheckBox.render({
+		  regionTest = regionCheckBox.render({
 			elem: '#regionTest',
-			name: 'region', //input name
-			value: ['北京', '内蒙古', '江西-九江'], //赋初始值
-			width: '550px', //默认550px
-			border: true, //默认true
-			ready: function(){ //初始化完成时执行
+			name: 'region', // 对应input name
+			value: ['北京', '内蒙古', '江西-九江'], // 赋初始值
+			width: '550px', // 默认550px
+			border: true, // 默认true
+			// 初始化完成时执行
+			ready: function(){
 				$('#all').html(this.name + '=' + getAllChecked());
 			},
-			change: function(result){ //点击复选框时执行
+			// 点击复选框时执行
+			change: function(result){
 				$('#click').html(result.value);
 				$('#all').html(this.name + '=' + getAllChecked());
 			}
-		  });
-		  
-		  function getAllChecked(){
-			var all = '';
-			$("input:checkbox[name='region']:checked").each(function(){
-				all += $(this).val() + ',';
-			});
-			return all.substring(0, all.length-1);
-		  }
-		  
+		  });		  
 		});
+
+		function getAllChecked(){
+		  var all = '';
+		  $("input:checkbox[name='region']:checked").each(function(){
+			all += $(this).val() + ',';
+		  });
+		  return all.substring(0, all.length-1);
+		}
+
+		function setValue(){
+	  	  regionTest.val(['上海', '云南-昆明']);
+	  	  $('#all').html(regionTest.config.name + '=' + getAllChecked());
+	    }
     </script>
   </body>
 </html>
