@@ -39,7 +39,8 @@ layui.define('form', function(exports){
 		
 		return {
 			reload: function(options){
-				that.reload.call(that, options);
+				that.config = $.extend({}, that.config, options);
+				that.render();
 			}			
 			,val: function(valueArr){
 				setValue(options, valueArr);

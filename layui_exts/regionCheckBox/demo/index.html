@@ -13,30 +13,39 @@
     		width: 100%;
     	}
     	div.test {
-    		display: inline-block;
-    		width: 45%;
+    		width: 47%;
+    		margin: 15px;
     	}
     </style>
   </head>
   <body>
-  	<div class="test" style="margin: 15px 0 0 15px;">
-  		<button class="layui-btn" onclick="setValue1()">赋值['北京', '云南-昆明']</button>
-  	</div>
-  	<div class="test" style="margin: 15px 0 0 15px;">
-  		<button class="layui-btn" onclick="setValue2()">赋值['上海', '广东-广州']</button>
+  	<div class="test" style="float: left;">
+  		
+  		<div style="margin-left: 15px;">
+	  		<button class="layui-btn" onclick="setValue1()">赋值['北京', '云南-昆明']</button>
+	  		<button class="layui-btn" onclick="reload1()">重载（改变name）</button>
+	  	</div>
+	  	<div id="regionTest1"></div>
+	  	<div style="margin-left: 15px;">
+			您点击的地域是：<span id="click1"></span></br>
+			提交的数据：<span id="all1"></span>
+		</div>
+
   	</div>
 
-    <div id="regionTest1" class="test"></div>
-    <div id="regionTest2" class="test"></div>
+  	<div class="test" style="float: right;">
 
-	<div class="test" style="margin-left: 15px;">
-		您点击的地域是：<span id="click1"></span></br>
-		提交的数据：<span id="all1"></span>
-	</div>
-	<div class="test" style="margin-left: 15px;">
-		您点击的地域是：<span id="click2"></span></br>
-		提交的数据：<span id="all2"></span>
-	</div>
+  		<div style="margin-left: 15px;">
+	  		<button class="layui-btn" onclick="setValue2()">赋值['上海', '广东-广州']</button>
+	  		<button class="layui-btn" onclick="reload2()">重载（改变width）</button>
+	  	</div>
+	  	<div id="regionTest2"></div>
+	  	<div style="margin-left: 15px;">
+			您点击的地域是：<span id="click2"></span></br>
+			提交的数据：<span id="all2"></span>
+		</div>
+
+  	</div>
 	
 	<script src="../../../layui/layui.js"></script>
 	<script>
@@ -101,6 +110,18 @@
 	  	  regionTest2.val(['上海', '广东-广州']);
 	  	  $('#click2').html('');
 	  	  $('#all2').html(regionTest2.config.name + '=' + getAllChecked(regionTest2.config.name));
+	    }
+
+	    function reload1(){
+	    	regionTest1.reload({
+				name: 'region11'
+	    	});
+	    }
+
+	    function reload2(){
+	    	regionTest2.reload({
+				width: '400px'
+	    	});
 	    }
     </script>
   </body>
