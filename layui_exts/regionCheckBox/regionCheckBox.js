@@ -45,7 +45,7 @@ layui.define('form', function(exports){
 				setValue(options, valueArr);
 			}
 			,config: options
-		}
+		};
 	}
 	,Class = function(options){
 		var that = this;
@@ -67,8 +67,8 @@ layui.define('form', function(exports){
 		var that = this
 		,options = that.config;
 
-		options.elem = $(options.elem);
-		
+		options.elem = $(options.elem);	
+		var id = options.elem.attr('id');	
 		
 		if(!options.elem.hasClass('layui-form') && options.elem.parents('.layui-form').length == 0){
 			options.elem.addClass('layui-form');
@@ -78,8 +78,9 @@ layui.define('form', function(exports){
 		if(!options.border){
 			options.elem.css('border', 'none');
 		}
+		options.elem.attr('lay-filter', 'region-' + id);
 		
-		options.elem.html(getCheckBoxs(options.name));
+		options.elem.html(getCheckBoxs(options));
 		
 		//初始值
 		setValue(options, options.value);
@@ -91,7 +92,7 @@ layui.define('form', function(exports){
 			$(this).find('.city').hide();
 		});
 		
-		form.on('checkbox(regionCheckBox)', function(data) {
+		form.on('checkbox(regionCheckBox-'+id+')', function(data) {
 			if(data.elem.value == '所有地域') { //选择所有地域
 				if(data.elem.checked) {
 					options.elem.find(':checkbox').prop('checked', true);
@@ -102,7 +103,6 @@ layui.define('form', function(exports){
 				//选择省（不包括直辖市）
 				if($(data.elem).parent().hasClass('parent')) { 
 					if(data.elem.checked) {
-						var ii = $(data.elem).next();
 						$(data.elem).parent().find('.city :checkbox').prop('checked', true);
 					} else {
 						$(data.elem).parent().find('.city :checkbox').prop('checked', false);
@@ -142,9 +142,9 @@ layui.define('form', function(exports){
 					options.elem.find(':checkbox[value="所有地域"]').prop('checked', false);
 				}
 			}
-			form.render('checkbox');
+			form.render('checkbox', options.elem.attr('lay-filter'));
 			
-			renderParentDom();
+			renderParentDom(options.elem);
 			initName(options);
 			
 			options.change(data);
@@ -153,11 +153,13 @@ layui.define('form', function(exports){
 		options.ready();
 	}
 	
-	function getCheckBoxs(name){
-		var skin = 'primary';
+	function getCheckBoxs(options){
+		var name = options.name,
+		id = options.elem.attr('id'),
+		skin = 'primary';
 		
 		var boxs = '<div class="layui-form-item" style="margin-left:15px;">' +
-				   '<input type="checkbox" name="' + name + '" value="所有地域" title="所有地域" lay-skin="' + skin + '" lay-filter="regionCheckBox">' +
+				   '<input type="checkbox" name="' + name + '" value="所有地域" title="所有地域" lay-skin="' + skin + '" lay-filter="regionCheckBox-' + id + '">' +
 				   '</div>';
 		
 		for(var area in regionList){
@@ -168,13 +170,13 @@ layui.define('form', function(exports){
 			for(var province in regionList[area]){
 				var city_num = regionList[area][province].length;
 				boxs += '<li' + (city_num > 0 ? ' class="parent"' : '') + '>' +
-						'<input type="checkbox" name="' + name + '" value="' + province + '" title="' + province + '" lay-skin="' + skin + '" lay-filter="regionCheckBox">';
+						'<input type="checkbox" name="' + name + '" value="' + province + '" title="' + province + '" lay-skin="' + skin + '" lay-filter="regionCheckBox-' + id + '">';
 				
 				if(city_num > 0){
 					boxs += '<div class="city">';
 					for(var i=0; i<city_num; i++){
 						var city = regionList[area][province][i];
-						boxs += '<input type="checkbox" name="' + name + '" value="' + province + '-' + city + '" title="' + city + '" lay-skin="' + skin + '" lay-filter="regionCheckBox">';
+						boxs += '<input type="checkbox" name="' + name + '" value="' + province + '-' + city + '" title="' + city + '" lay-skin="' + skin + '" lay-filter="regionCheckBox-' + id + '">';
 					}	
 					boxs += '</div>';					
 				}
@@ -203,28 +205,28 @@ layui.define('form', function(exports){
 				}
 			}
 		}
-		form.render('checkbox');
+		form.render('checkbox', options.elem.attr('lay-filter'));
 
-		renderParentDom();
+		renderParentDom(options.elem);
 		initName(options);
 	}
 	
 	function initName(options){
-		var $elem = $(options.elem);
+		var $elem = options.elem;
 		
 		$elem.find(':checkbox').attr('name', options.name);
 		
 		if($elem.find(':checkbox[value="所有地域"]').prop('checked')){
 			$elem.find(':checkbox[value!="所有地域"]').removeAttr('name');
 		}else{
-			$('.parent').find(':checkbox:first:checked').each(function() {
+			$elem.find('.parent').find(':checkbox:first:checked').each(function() {
 				$(this).parent().find('.city :checkbox').removeAttr('name');
 			});
 		}
 	}
 	
-	function renderParentDom(){
-		$('.parent').find(':checkbox:first').not(':checked').each(function() {
+	function renderParentDom(elem){
+		elem.find('.parent').find(':checkbox:first').not(':checked').each(function() {
 			var is_yes_all = true;
 			var is_no_all = true;
 			$(this).parent().find('.city :checkbox').each(function(i, item) {
