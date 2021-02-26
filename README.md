@@ -26,7 +26,7 @@
 		  var regionCheckBox = layui.regionCheckBox;
 		  
 		  //执行实例
-		  regionTest = regionCheckBox.render({
+		  var regionTest = regionCheckBox.render({
 			elem: '#regionTest',
 			name: 'region', // 对应input name
 			value: ['北京', '内蒙古', '江西-九江'], // 赋初始值
