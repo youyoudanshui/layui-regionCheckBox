@@ -9,6 +9,8 @@
 2. 新增支持实例化多个
 3. 新增重载方法
 4. 优化代码
+- 2021-03-11
+1. 支持字符串赋值，多个值用“,”隔开
 
 
 #### 使用示例
@@ -31,7 +33,7 @@
 		  var regionTest = regionCheckBox.render({
 			elem: '#regionTest',
 			name: 'region', // 对应input name
-			value: ['北京', '内蒙古', '江西-九江'], // 赋初始值
+			value: ['北京', '内蒙古', '江西-九江'], // 赋初始值，'北京,内蒙古,江西-九江'可以
 			width: '550px', // 默认550px
 			border: true, // 默认true
 			// 初始化完成时执行
