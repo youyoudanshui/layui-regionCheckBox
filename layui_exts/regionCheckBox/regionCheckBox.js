@@ -195,6 +195,9 @@ layui.define('form', function(exports){
 		if(valueArr.indexOf('所有地域') > -1){
 			options.elem.find(':checkbox').prop('checked', true);
 		}else{
+			if(typeof valueArr == 'string'){
+				valueArr = valueArr.split(',');
+			}
 			for(var i=0; i<valueArr.length; i++){
 				var value = valueArr[i]
 				,$elem = options.elem.find(':checkbox[value="'+value+'"]');

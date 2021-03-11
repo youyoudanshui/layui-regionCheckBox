@@ -36,7 +36,7 @@
   	<div class="test" style="float: right;">
 
   		<div style="margin-left: 15px;">
-	  		<button class="layui-btn" onclick="setValue2()">赋值['上海', '广东-广州']</button>
+	  		<button class="layui-btn" onclick="setValue2()">赋值'上海,广东-广州'</button>
 	  		<button class="layui-btn" onclick="reload2()">重载（改变width）</button>
 	  	</div>
 	  	<div id="regionTest2"></div>
@@ -107,7 +107,7 @@
 	    }
 
 	    function setValue2(){
-	  	  regionTest2.val(['上海', '广东-广州']);
+	  	  regionTest2.val('上海,广东-广州');
 	  	  $('#click2').html('');
 	  	  $('#all2').html(regionTest2.config.name + '=' + getAllChecked(regionTest2.config.name));
 	    }
