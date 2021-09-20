@@ -20,7 +20,7 @@
 | elem   | String       | 指定容器的选择器，必填              | #demo           |
 | name   | String       | checkbox name属性值         | region          |
 | data   | Array        | 设置checkbox选项值和显示的文字，不设置则使用预设选项 | 参考region.json和demo页 |
-| all    | Array        | 全选框值和显示的文字，若为null则不显示全选框 | ['all', '全部']   |
+| all    | Array        | 全选框值和显示的文字，默认['所有地域', '所有地域']，若为null则不显示全选框 | ['all', '全部']   |
 | value  | Array/String | 赋初始值                     | ['北京', '云南-昆明']/'北京,云南-昆明' |
 | width  | String       | 容器宽度，默认550px             | 400px           |
 | border | Boolean      | 是否显示边框，默认true            | false           |
