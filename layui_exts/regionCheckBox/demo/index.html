@@ -50,6 +50,163 @@
 	<script src="../../../layui/layui.js"></script>
 	<script>
 		var $, regionTest1, regionTest2;
+		var testList = [
+			{'VALUE': '1', 'TITLE': '上海', 'TYPE': 'province'},
+			{'VALUE': '江苏', 'TITLE': '江苏', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '江苏-南京', 'TITLE': '南京', 'TYPE': 'city'},
+				{'VALUE': '江苏-徐州', 'TITLE': '徐州', 'TYPE': 'city'},
+				{'VALUE': '江苏-连云港', 'TITLE': '连云港', 'TYPE': 'city'},
+				{'VALUE': '江苏-淮安', 'TITLE': '淮安', 'TYPE': 'city'},
+				{'VALUE': '江苏-宿迁', 'TITLE': '宿迁', 'TYPE': 'city'},
+				{'VALUE': '江苏-盐城', 'TITLE': '盐城', 'TYPE': 'city'},
+				{'VALUE': '江苏-扬州', 'TITLE': '扬州', 'TYPE': 'city'},
+				{'VALUE': '江苏-泰州', 'TITLE': '泰州', 'TYPE': 'city'},
+				{'VALUE': '江苏-南通', 'TITLE': '南通', 'TYPE': 'city'},
+				{'VALUE': '江苏-镇江', 'TITLE': '镇江', 'TYPE': 'city'},
+				{'VALUE': '江苏-常州', 'TITLE': '常州', 'TYPE': 'city'},
+				{'VALUE': '江苏-无锡', 'TITLE': '无锡', 'TYPE': 'city'},
+				{'VALUE': '江苏-苏州', 'TITLE': '苏州', 'TYPE': 'city'}
+			]},
+			{'VALUE': '浙江', 'TITLE': '浙江', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '浙江-杭州', 'TITLE': '杭州', 'TYPE': 'city'},
+				{'VALUE': '浙江-宁波', 'TITLE': '宁波', 'TYPE': 'city'},
+				{'VALUE': '浙江-温州', 'TITLE': '温州', 'TYPE': 'city'},
+				{'VALUE': '浙江-嘉兴', 'TITLE': '嘉兴', 'TYPE': 'city'},
+				{'VALUE': '浙江-湖州', 'TITLE': '湖州', 'TYPE': 'city'},
+				{'VALUE': '浙江-绍兴', 'TITLE': '绍兴', 'TYPE': 'city'},
+				{'VALUE': '浙江-金华', 'TITLE': '金华', 'TYPE': 'city'},
+				{'VALUE': '浙江-衢州', 'TITLE': '衢州', 'TYPE': 'city'},
+				{'VALUE': '浙江-舟山', 'TITLE': '舟山', 'TYPE': 'city'},
+				{'VALUE': '浙江-台州', 'TITLE': '台州', 'TYPE': 'city'},
+				{'VALUE': '浙江-丽水', 'TITLE': '丽水', 'TYPE': 'city'}
+			]},
+			{'VALUE': '安徽', 'TITLE': '安徽', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '安徽-合肥', 'TITLE': '合肥', 'TYPE': 'city'},
+				{'VALUE': '安徽-芜湖', 'TITLE': '芜湖', 'TYPE': 'city'},
+				{'VALUE': '安徽-蚌埠', 'TITLE': '蚌埠', 'TYPE': 'city'},
+				{'VALUE': '安徽-淮南', 'TITLE': '淮南', 'TYPE': 'city'},
+				{'VALUE': '安徽-马鞍山', 'TITLE': '马鞍山', 'TYPE': 'city'},
+				{'VALUE': '安徽-淮北', 'TITLE': '淮北', 'TYPE': 'city'},
+				{'VALUE': '安徽-铜陵', 'TITLE': '铜陵', 'TYPE': 'city'},
+				{'VALUE': '安徽-安庆', 'TITLE': '安庆', 'TYPE': 'city'},
+				{'VALUE': '安徽-黄山', 'TITLE': '黄山', 'TYPE': 'city'},
+				{'VALUE': '安徽-滁州', 'TITLE': '滁州', 'TYPE': 'city'},
+				{'VALUE': '安徽-阜阳', 'TITLE': '阜阳', 'TYPE': 'city'},
+				{'VALUE': '安徽-宿州', 'TITLE': '宿州', 'TYPE': 'city'},
+				{'VALUE': '安徽-六安', 'TITLE': '六安', 'TYPE': 'city'},
+				{'VALUE': '安徽-亳州', 'TITLE': '亳州', 'TYPE': 'city'},
+				{'VALUE': '安徽-池州', 'TITLE': '池州', 'TYPE': 'city'},
+				{'VALUE': '安徽-宣城', 'TITLE': '宣城', 'TYPE': 'city'}
+			]},
+			{'VALUE': '福建', 'TITLE': '福建', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '福建-福州', 'TITLE': '福州', 'TYPE': 'city'},
+				{'VALUE': '福建-厦门', 'TITLE': '厦门', 'TYPE': 'city'},
+				{'VALUE': '福建-三明', 'TITLE': '三明', 'TYPE': 'city'},
+				{'VALUE': '福建-莆田', 'TITLE': '莆田', 'TYPE': 'city'},
+				{'VALUE': '福建-泉州', 'TITLE': '泉州', 'TYPE': 'city'},
+				{'VALUE': '福建-漳州', 'TITLE': '漳州', 'TYPE': 'city'},
+				{'VALUE': '福建-南平', 'TITLE': '南平', 'TYPE': 'city'},
+				{'VALUE': '福建-龙岩', 'TITLE': '龙岩', 'TYPE': 'city'},
+				{'VALUE': '福建-宁德', 'TITLE': '宁德', 'TYPE': 'city'},
+				{'VALUE': '福建-平潭', 'TITLE': '平潭', 'TYPE': 'city'}
+			]},
+			{'VALUE': '江西', 'TITLE': '江西', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '江西-南昌', 'TITLE': '南昌', 'TYPE': 'city'},
+				{'VALUE': '江西-景德镇', 'TITLE': '景德镇', 'TYPE': 'city'},
+				{'VALUE': '江西-萍乡', 'TITLE': '萍乡', 'TYPE': 'city'},
+				{'VALUE': '江西-九江', 'TITLE': '九江', 'TYPE': 'city'},
+				{'VALUE': '江西-新余', 'TITLE': '新余', 'TYPE': 'city'},
+				{'VALUE': '江西-鹰潭', 'TITLE': '鹰潭', 'TYPE': 'city'},
+				{'VALUE': '江西-赣州', 'TITLE': '赣州', 'TYPE': 'city'},
+				{'VALUE': '江西-吉安', 'TITLE': '吉安', 'TYPE': 'city'},
+				{'VALUE': '江西-宜春', 'TITLE': '宜春', 'TYPE': 'city'},
+				{'VALUE': '江西-抚州', 'TITLE': '抚州', 'TYPE': 'city'},
+				{'VALUE': '江西-上饶', 'TITLE': '上饶', 'TYPE': 'city'}
+			]},
+			{'VALUE': '山东', 'TITLE': '山东', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '山东-济南', 'TITLE': '济南', 'TYPE': 'city'},
+				{'VALUE': '山东-青岛', 'TITLE': '青岛', 'TYPE': 'city'},
+				{'VALUE': '山东-淄博', 'TITLE': '淄博', 'TYPE': 'city'},
+				{'VALUE': '山东-枣庄', 'TITLE': '枣庄', 'TYPE': 'city'},
+				{'VALUE': '山东-东营', 'TITLE': '东营', 'TYPE': 'city'},
+				{'VALUE': '山东-潍坊', 'TITLE': '潍坊', 'TYPE': 'city'},
+				{'VALUE': '山东-烟台', 'TITLE': '烟台', 'TYPE': 'city'},
+				{'VALUE': '山东-威海', 'TITLE': '威海', 'TYPE': 'city'},
+				{'VALUE': '山东-济宁', 'TITLE': '济宁', 'TYPE': 'city'},
+				{'VALUE': '山东-泰安', 'TITLE': '泰安', 'TYPE': 'city'},
+				{'VALUE': '山东-日照', 'TITLE': '日照', 'TYPE': 'city'},
+				{'VALUE': '山东-莱芜', 'TITLE': '莱芜', 'TYPE': 'city'},
+				{'VALUE': '山东-临沂', 'TITLE': '临沂', 'TYPE': 'city'},
+				{'VALUE': '山东-德州', 'TITLE': '德州', 'TYPE': 'city'},
+				{'VALUE': '山东-聊城', 'TITLE': '聊城', 'TYPE': 'city'},
+				{'VALUE': '山东-滨州', 'TITLE': '滨州', 'TYPE': 'city'},
+				{'VALUE': '山东-菏泽', 'TITLE': '菏泽', 'TYPE': 'city'}
+
+			]},
+
+		
+			{'VALUE': '广东', 'TITLE': '广东', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '广东-广州', 'TITLE': '广州', 'TYPE': 'city'},
+				{'VALUE': '广东-深圳', 'TITLE': '深圳', 'TYPE': 'city'},
+				{'VALUE': '广东-珠海', 'TITLE': '珠海', 'TYPE': 'city'},
+				{'VALUE': '广东-汕头', 'TITLE': '汕头', 'TYPE': 'city'},
+				{'VALUE': '广东-韶关', 'TITLE': '韶关', 'TYPE': 'city'},
+				{'VALUE': '广东-河源', 'TITLE': '河源', 'TYPE': 'city'},
+				{'VALUE': '广东-梅州', 'TITLE': '梅州', 'TYPE': 'city'},
+				{'VALUE': '广东-汕尾', 'TITLE': '汕尾', 'TYPE': 'city'},
+				{'VALUE': '广东-东莞', 'TITLE': '东莞', 'TYPE': 'city'},
+				{'VALUE': '广东-中山', 'TITLE': '中山', 'TYPE': 'city'},
+				{'VALUE': '广东-江门', 'TITLE': '江门', 'TYPE': 'city'},
+				{'VALUE': '广东-佛山', 'TITLE': '佛山', 'TYPE': 'city'},
+				{'VALUE': '广东-阳江', 'TITLE': '阳江', 'TYPE': 'city'},
+				{'VALUE': '广东-湛江', 'TITLE': '湛江', 'TYPE': 'city'},
+				{'VALUE': '广东-茂名', 'TITLE': '茂名', 'TYPE': 'city'},
+				{'VALUE': '广东-肇庆', 'TITLE': '肇庆', 'TYPE': 'city'},
+				{'VALUE': '广东-清远', 'TITLE': '清远', 'TYPE': 'city'},
+				{'VALUE': '广东-潮州', 'TITLE': '潮州', 'TYPE': 'city'},
+				{'VALUE': '广东-揭阳', 'TITLE': '揭阳', 'TYPE': 'city'},
+				{'VALUE': '广东-云浮', 'TITLE': '云浮', 'TYPE': 'city'},
+				{'VALUE': '广东-惠州', 'TITLE': '惠州', 'TYPE': 'city'}
+			]},
+			{'VALUE': '广西', 'TITLE': '广西', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '广西-南宁', 'TITLE': '南宁', 'TYPE': 'city'},
+				{'VALUE': '广西-柳州', 'TITLE': '柳州', 'TYPE': 'city'},
+				{'VALUE': '广西-桂林', 'TITLE': '桂林', 'TYPE': 'city'},
+				{'VALUE': '广西-梧州', 'TITLE': '梧州', 'TYPE': 'city'},
+				{'VALUE': '广西-北海', 'TITLE': '北海', 'TYPE': 'city'},
+				{'VALUE': '广西-防城港', 'TITLE': '防城港', 'TYPE': 'city'},
+				{'VALUE': '广西-钦州', 'TITLE': '钦州', 'TYPE': 'city'},
+				{'VALUE': '广西-贵港', 'TITLE': '贵港', 'TYPE': 'city'},
+				{'VALUE': '广西-玉林', 'TITLE': '玉林', 'TYPE': 'city'},
+				{'VALUE': '广西-百色', 'TITLE': '百色', 'TYPE': 'city'},
+				{'VALUE': '广西-贺州', 'TITLE': '贺州', 'TYPE': 'city'},
+				{'VALUE': '广西-河池', 'TITLE': '河池', 'TYPE': 'city'},
+				{'VALUE': '广西-来宾', 'TITLE': '来宾', 'TYPE': 'city'},
+				{'VALUE': '广西-崇左', 'TITLE': '崇左', 'TYPE': 'city'}
+			]},
+			{'VALUE': '海南', 'TITLE': '海南', 'TYPE': 'province', 'CHILDREN': [
+				{'VALUE': '海南-海口', 'TITLE': '海口', 'TYPE': 'city'},
+				{'VALUE': '海南-三亚', 'TITLE': '三亚', 'TYPE': 'city'},
+				{'VALUE': '海南-文昌', 'TITLE': '文昌', 'TYPE': 'city'},
+				{'VALUE': '海南-琼海', 'TITLE': '琼海', 'TYPE': 'city'},
+				{'VALUE': '海南-万宁', 'TITLE': '万宁', 'TYPE': 'city'},
+				{'VALUE': '海南-五指山', 'TITLE': '五指山', 'TYPE': 'city'},
+				{'VALUE': '海南-东方', 'TITLE': '东方', 'TYPE': 'city'},
+				{'VALUE': '海南-儋州', 'TITLE': '儋州', 'TYPE': 'city'},
+				{'VALUE': '海南-临高', 'TITLE': '临高', 'TYPE': 'city'},
+				{'VALUE': '海南-澄迈', 'TITLE': '澄迈', 'TYPE': 'city'},
+				{'VALUE': '海南-定安', 'TITLE': '定安', 'TYPE': 'city'},
+				{'VALUE': '海南-屯昌', 'TITLE': '屯昌', 'TYPE': 'city'},
+				{'VALUE': '海南-昌江黎族自治县', 'TITLE': '昌江黎族自治县', 'TYPE': 'city'},
+				{'VALUE': '海南-白沙黎族自治县', 'TITLE': '白沙黎族自治县', 'TYPE': 'city'},
+				{'VALUE': '海南-琼中黎族苗族自治县', 'TITLE': '琼中黎族苗族自治县', 'TYPE': 'city'},
+				{'VALUE': '海南-陵水黎族自治县', 'TITLE': '陵水黎族自治县', 'TYPE': 'city'},
+				{'VALUE': '海南-保亭黎族苗族自治县', 'TITLE': '保亭黎族苗族自治县', 'TYPE': 'city'},
+				{'VALUE': '海南-乐东黎族自治县', 'TITLE': '乐东黎族自治县', 'TYPE': 'city'},
+				{'VALUE': '海南-三沙', 'TITLE': '三沙', 'TYPE': 'city'},
+				{'VALUE': '海南-洋浦', 'TITLE': '洋浦', 'TYPE': 'city'}
+			]}
+		];
 
         layui.config({
 		  base: '../../../layui_exts/' // 配置组件存放的基础目录
@@ -80,6 +237,9 @@
 		  regionTest2 = regionCheckBox.render({
 			elem: '#regionTest2',
 			name: 'region2',
+			data: testList,
+//			all: ['all', '全部'], //[value, title]
+			all: null,
 			// 初始化完成时执行
 			ready: function(){
 				$('#all2').html(this.name + '=' + getAllChecked(this.name));

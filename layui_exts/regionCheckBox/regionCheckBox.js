@@ -18,7 +18,7 @@ layui.define('form', function(exports){
 
 	var $ = layui.$
 	,form = layui.form
-	,MOD_NAME = 'regionCheckBox', ELEM = '.layui-regionContent'
+	,MOD_NAME = 'regionCheckBox', ELEM_CLASS = 'layui-regionContent'
 	,regionCheckBox = {
 		index: layui.regionCheckBox ? (layui.regionCheckBox.index + 10000) : 0
 		
@@ -57,7 +57,9 @@ layui.define('form', function(exports){
 	
 	
 	Class.prototype.config = {
-		value: []
+		data: regionCheckBoxList
+		,all: ['所有地域', '所有地域']
+		,value: []
 		,width: '550px'
 		,border: true
 		,change: function(result){}
@@ -74,7 +76,7 @@ layui.define('form', function(exports){
 		if(!options.elem.hasClass('layui-form') && options.elem.parents('.layui-form').length == 0){
 			options.elem.addClass('layui-form');
 		}
-		options.elem.addClass('layui-regionContent');
+		options.elem.addClass(ELEM_CLASS);
 		options.elem.css('width', options.width);
 		if(!options.border){
 			options.elem.css('border', 'none');
@@ -94,7 +96,7 @@ layui.define('form', function(exports){
 		});
 		
 		form.on('checkbox(regionCheckBox-'+id+')', function(data) {
-			if(data.elem.value == '所有地域') { //选择所有地域
+			if($(data.elem).parents('.all').length > 0) { //选择全部
 				if(data.elem.checked) {
 					options.elem.find(':checkbox').prop('checked', true);
 				} else {
@@ -127,20 +129,20 @@ layui.define('form', function(exports){
 						$(data.elem).parents('.parent').find(':checkbox:first').prop('checked', false);						
 					}
 				}
-				//选择除所有地域外任意
+				//选择除全部外任意
 				if(data.elem.checked) { 
 					var is_all = true;
-					options.elem.find(':checkbox[value!="所有地域"]').each(function(i, item) {
+					options.elem.find('.province :checkbox').each(function(i, item) {
 						if(! item.checked) {
 							is_all = false;
 							return false;
 						}
 					});
 					if(is_all) {
-						options.elem.find(':checkbox[value="所有地域"]').prop('checked', true);
+						options.elem.find('.all :checkbox').prop('checked', true);
 					}
 				} else {
-					options.elem.find(':checkbox[value="所有地域"]').prop('checked', false);
+					options.elem.find('.all :checkbox').prop('checked', false);
 				}
 			}
 			form.render('checkbox', options.elem.attr('lay-filter'));
@@ -155,44 +157,89 @@ layui.define('form', function(exports){
 	}
 	
 	function getCheckBoxs(options){
-		var name = options.name,
+		var data = options.data,
+		all = options.all,
+		name = options.name,
 		id = options.elem.attr('id'),
-		skin = 'primary';
-		
-		var boxs = '<div class="layui-form-item" style="margin-left:15px;">' +
-				   '<input type="checkbox" name="' + name + '" value="所有地域" title="所有地域" lay-skin="' + skin + '" lay-filter="regionCheckBox-' + id + '">' +
-				   '</div>';
-		
-		for(var area in regionList){
-			boxs += '<div class="layui-form-item" style="margin-bottom:0;">' +
-					'<label class="layui-form-label area">' + area + '：</label>' +
-					'<div class="layui-input-block province">' +
+		skin = 'primary',
+		filter = 'regionCheckBox-' + id,
+		boxs = '',
+		hasArea = true;
+
+		if(all != null && all.length == 2){
+			boxs = '<div class="layui-form-item all">' +
+				   '<input type="checkbox" name="' + name + '" value="' + all[0] + '" title="' + all[1] + '" lay-skin="' + skin + '" lay-filter="' + filter + '">' +
+				   '</div>' + boxs;
+		}
+
+		if(data[0].TYPE == 'province'){
+			hasArea = false;
+		}
+
+		if(!hasArea){
+			boxs += '<div class="layui-form-item" style="margin-bottom: 0;">' +
+					'<div class="province">' +
 					'<ul>';
-			for(var province in regionList[area]){
-				var city_num = regionList[area][province].length;
-				boxs += '<li' + (city_num > 0 ? ' class="parent"' : '') + '>' +
-						'<input type="checkbox" name="' + name + '" value="' + province + '" title="' + province + '" lay-skin="' + skin + '" lay-filter="regionCheckBox-' + id + '">';
-				
-				if(city_num > 0){
-					boxs += '<div class="city">';
-					for(var i=0; i<city_num; i++){
-						var city = regionList[area][province][i];
-						boxs += '<input type="checkbox" name="' + name + '" value="' + province + '-' + city + '" title="' + city + '" lay-skin="' + skin + '" lay-filter="regionCheckBox-' + id + '">';
-					}	
-					boxs += '</div>';					
+		}
+
+		for(var i=0; i<data.length; i++){
+			var area = data[i];
+
+			if(area.TYPE == 'area'){
+				boxs += '<div class="layui-form-item area">' +
+						'<label class="layui-form-label">' + area.TITLE + '</label>' +
+						'<div class="province">' +
+						'<ul>';
+
+				var provinceList = area.CHILDREN;
+				for(var j=0; j<provinceList.length; j++){
+					boxs += getProvinceLi(provinceList[j], options);
 				}
-				
-				boxs += '</li>';
+
+				boxs += '</ul></div></div>';
+			}else if(area.TYPE == 'province'){
+				boxs += getProvinceLi(area, options);
 			}
-			boxs += '</div></div>';
+		}
+
+		if(!hasArea){
+			boxs += '</ul></div>';
 		}
 				   
 		return boxs;
 	}
 
+	function getProvinceLi(province, options){
+		var name = options.name,
+		id = options.elem.attr('id'),
+		skin = 'primary',
+		filter = 'regionCheckBox-' + id,
+		li = '';
+
+		var cityList = province.CHILDREN;
+		var city_num = cityList == null ? 0 : cityList.length;
+
+		li += '<li' + (city_num > 0 ? ' class="parent"' : '') + '>' +
+				'<input type="checkbox" name="' + name + '" value="' + province.VALUE + '" title="' + province.TITLE + '" lay-skin="' + skin + '" lay-filter="' + filter + '">';
+		
+		if(city_num > 0){
+			li += '<div class="city">';
+			for(var k=0; k<city_num; k++){
+				var city = cityList[k];
+				li += '<input type="checkbox" name="' + name + '" value="' + city.VALUE + '" title="' + city.TITLE + '" lay-skin="' + skin + '" lay-filter="' + filter + '">';
+			}	
+			li += '</div>';					
+		}
+
+		li += '</li>';
+
+		return li;
+	}
+
 	function setValue(options, valueArr){
 		options.elem.find(':checkbox').prop('checked', false);
-		if(valueArr.indexOf('所有地域') > -1){
+		var all_value = options.elem.find('.all :checkbox').val();
+		if(valueArr.indexOf(all_value) > -1){
 			options.elem.find(':checkbox').prop('checked', true);
 		}else{
 			if(typeof valueArr == 'string'){
@@ -220,8 +267,8 @@ layui.define('form', function(exports){
 		
 		$elem.find(':checkbox').attr('name', options.name);
 		
-		if($elem.find(':checkbox[value="所有地域"]').prop('checked')){
-			$elem.find(':checkbox[value!="所有地域"]').removeAttr('name');
+		if($elem.find('.all :checkbox').prop('checked')){
+			$elem.find('.province :checkbox').removeAttr('name');
 		}else{
 			$elem.find('.parent').find(':checkbox:first:checked').each(function() {
 				$(this).parent().find('.city :checkbox').removeAttr('name');
@@ -253,7 +300,7 @@ layui.define('form', function(exports){
 		return thisIns.call(ins);
 	};
 	
-	layui.link(layui.cache.base + 'regionCheckBox/regionCheckBox.css?v=1', function(){
+	layui.link(layui.cache.base + 'regionCheckBox/regionCheckBox.css?v=2', function(){
 		
 	}, 'regionCheckBox');
 
