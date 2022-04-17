@@ -73,7 +73,7 @@ layui.define('form', function(exports){
 		options.elem = $(options.elem);	
 		var id = options.elem.attr('id');	
 		
-		if(!options.elem.hasClass('layui-form') && options.elem.parents('.layui-form').length == 0){
+		if(!options.elem.hasClass('layui-form')){
 			options.elem.addClass('layui-form');
 		}
 		options.elem.addClass(ELEM_CLASS);
