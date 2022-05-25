@@ -34,11 +34,11 @@
 | change: function(result){} | 点击复选框时触发 |
 
 #### 基础方法
-| 方法名                        | 备注       |
-|----------------------------|----------|
-| regionCheckBox.render(options)          | 渲染 |
-| regionCheckBox.val(value)          | 赋值 |
-| regionCheckBox.reload(options)     | 重载 |
+| 方法名                                             | 备注       |
+|-------------------------------------------------|----------|
+| var regionTest = regionCheckBox.render(options) | 渲染 |
+| regionTest.val(value)                       | 赋值 |
+| regionTest.reload(options)                  | 重载 |
 
 #### 使用示例
 
